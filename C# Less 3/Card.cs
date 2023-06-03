@@ -8,21 +8,21 @@ namespace C__Less_3
 {
     public class Card
     {
-        public int points { get; private set; }
-        public int toSort { get; private set; }
-        public string name { get; }
-        public string suit { get; }
-        public Card(string Name, string Suit)
+        public int Points { get; private set; }
+        public int ToSort { get; private set; }
+        public string Name { get; }
+        public string Suit { get; }
+        public Card(string name, string suit)
         {
-            name = Name;
-            suit = Suit;
+            Name = name;
+            Suit = suit;
             PointsSet(name);
             ValueToSortSet(name);
         }
 
         private void ValueToSortSet(string name)
         {
-            toSort = name switch
+            ToSort = name switch
             {
                 "Туз" => 1,
                 "Король" => 2,
@@ -39,7 +39,7 @@ namespace C__Less_3
 
         private void PointsSet(string name)
         {
-            points = name switch
+            Points = name switch
             {
                 "Туз" => 11,
                 "Король" => 4,
