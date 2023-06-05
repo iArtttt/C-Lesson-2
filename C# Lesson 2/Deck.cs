@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,53 +15,25 @@ namespace C__Less_3
 
         private void CardCreate()
         {
-            Cards = new List<Card>()
+            Cards = new List<Card>();
+            var name = Enum.GetValues<CardName_Points>();
+            var suit = Enum.GetValues<CardSuit>();
+            for (int i = 0; i < 4; i++)
             {
-               { new Card("Туз",    "Чирва")  },
-               { new Card("Король", "Чирва")  },
-               { new Card("Дама",   "Чирва")  },
-               { new Card("Валет",  "Чирва")  },
-               { new Card("Десять", "Чирва")  },
-               { new Card("Девять", "Чирва")  },
-               { new Card("Восемь", "Чирва")  },
-               { new Card("Семь",   "Чирва")  },
-               { new Card("Шесть",  "Чирва")  },
-               { new Card("Туз",    "Бубна")  },
-               { new Card("Король", "Бубна")  },
-               { new Card("Дама",   "Бубна")  },
-               { new Card("Валет",  "Бубна")  },
-               { new Card("Десять", "Бубна")  },
-               { new Card("Девять", "Бубна")  },
-               { new Card("Восемь", "Бубна")  },
-               { new Card("Семь",   "Бубна")  },
-               { new Card("Шесть",  "Бубна")  },
-               { new Card("Туз",    "Креста") },
-               { new Card("Король", "Креста") },
-               { new Card("Дама",   "Креста") },
-               { new Card("Валет",  "Креста") },
-               { new Card("Десять", "Креста") },
-               { new Card("Девять", "Креста") },
-               { new Card("Восемь", "Креста") },
-               { new Card("Семь",   "Креста") },
-               { new Card("Шесть",  "Креста") },
-               { new Card("Туз",    "Пик")    },
-               { new Card("Король", "Пик")    },
-               { new Card("Дама",   "Пик")    },
-               { new Card("Валет",  "Пик")    },
-               { new Card("Десять", "Пик")    },
-               { new Card("Девять", "Пик")    },
-               { new Card("Восемь", "Пик")    },
-               { new Card("Семь",   "Пик")    },
-               { new Card("Шесть",  "Пик")    }
-            };                                                                                                                                        { new Card("Шесть",   "Пик")   ;
+                for (int j = 0; j < 9; j++)
+                {
+                    Cards.Add(new Card(name[j] , suit[i]));
+                }
             }
+            AllCardToSort();
         }
+
         public void SearchOfSpadesPosition()
         {
             Console.WriteLine();
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (Cards[i].Suit == "Пик")
+                if (Cards[i].Suit == CardSuit.Пик)
                     Console.WriteLine($"{Cards[i].Name} {Cards[i].Suit} на позиции \t[ {i} ]");
             }
         }
@@ -71,7 +44,12 @@ namespace C__Less_3
             Card temp;
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (Cards[i].Suit == "Пик")
+                if (i == insertToPosition && Cards[i].Suit == CardSuit.Пик)
+                {
+                    insertToPosition++;
+                    continue;
+                }
+                if (Cards[i].Suit == CardSuit.Пик)
                 {
                     temp = Cards[i];
                     Cards[i] = Cards[insertToPosition];
@@ -86,7 +64,7 @@ namespace C__Less_3
         {
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (Cards[i].Name == "Туз")
+                if (Cards[i].Name == CardName_Points.Туз)
                     Console.WriteLine($"{Cards[i].Name} {Cards[i].Suit} on position \t[ {i} ]");
 
             }
@@ -94,11 +72,19 @@ namespace C__Less_3
 
         public void AllCardToSort()
         {
-            Cards = Cards.OrderBy((c) => c.Suit == "Пик")
-                        .ThenBy((c) => c.Suit == "Креста")
-                        .ThenBy((c) => c.Suit == "Бубна")
-                        .ThenBy(c => c.ToSort).ToList();
-
+            Cards = Cards.OrderBy(c => c.Suit).ThenBy(c => (int)c.Name switch
+            {
+                11 => 0,
+                4 => 1,
+                3 => 2,
+                2 => 3,
+                10 => 4,
+                9 => 5,
+                8 => 6,
+                7 => 7,
+                6 => 8,
+                _ => 0
+            }).ToList();
         }
         public void CardsShuffle()
         {
@@ -119,6 +105,13 @@ namespace C__Less_3
                     Cards[i] = temp;
                 }
             } while (amountOfMixing++ < totalAmountOfMixing);
+        }
+
+        public Card GiveCard()
+        {
+            Card toGive = Cards[0];
+            Cards.RemoveAt(0);
+            return toGive;
         }
 
         public void ShowAllCards()
@@ -144,10 +137,10 @@ namespace C__Less_3
         {
             return card.Suit switch
             {
-                "Чирва" => Console.ForegroundColor = ConsoleColor.DarkRed,
-                "Бубна" => Console.ForegroundColor = ConsoleColor.Red,
-                "Креста" => Console.ForegroundColor = ConsoleColor.Blue,
-                "Пик" => Console.ForegroundColor = ConsoleColor.DarkBlue,
+                CardSuit.Чирва => Console.ForegroundColor = ConsoleColor.DarkRed,
+                CardSuit.Бубна => Console.ForegroundColor = ConsoleColor.Red,
+                CardSuit.Креста => Console.ForegroundColor = ConsoleColor.Blue,
+                CardSuit.Пик => Console.ForegroundColor = ConsoleColor.DarkBlue,
                 _ => Console.ForegroundColor = ConsoleColor.Gray,
             };
         }
@@ -155,10 +148,10 @@ namespace C__Less_3
         {
             return card.Name switch
             {
-                "Туз" => Console.ForegroundColor = ConsoleColor.Yellow,
-                "Король" => Console.ForegroundColor = ConsoleColor.Yellow,
-                "Дама" => Console.ForegroundColor = ConsoleColor.Yellow,
-                "Валет" => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Туз => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Король => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Дама => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Валет => Console.ForegroundColor = ConsoleColor.Yellow,
                 _ => Console.ForegroundColor = ConsoleColor.DarkYellow,
             };
         }
@@ -170,5 +163,6 @@ namespace C__Less_3
             Console.Write($"\t{card.Suit} ");
             Console.ResetColor();
         }
+
     }
 }

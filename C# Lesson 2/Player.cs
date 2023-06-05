@@ -8,32 +8,31 @@ namespace C__Less_3
 {
     internal class Player
     {
-        public List<Card> Arm { get; private set; }
+        public List<Card> Hand { get; private set; }
 
         public Player() 
         {
-            Arm = new List<Card>();
+            Hand = new List<Card>();
         }
 
-        public void TakingCard(List<Card> cards)
+        public void TakingCard(Deck cards)
         {
-            if (cards.Count == 0)
+            if (cards.Cards.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("В колоде больше нет карт!");
                 Console.ResetColor();
                 return;
             }
-            Arm.Add(cards[0]);
-            cards.Remove(cards[0]);
+            Hand.Add(cards.GiveCard());
         }
         public int PlayerPoints()
         {
             int PlayerPoints = 0;
 
-            foreach (Card card in Arm)
+            foreach (Card card in Hand)
             {
-                PlayerPoints += card.Points;
+                PlayerPoints += (int)card.Name;
             }
             return PlayerPoints;
         }
@@ -41,10 +40,10 @@ namespace C__Less_3
         {
             Console.WriteLine();
 
-            for (int i = 0; i < Arm.Count; i++)
+            for (int i = 0; i < Hand.Count; i++)
             {
-                Deck.CardPrint(Arm[i]);
-                Console.Write($"\t{Arm[i].Points} очков\n");
+                Deck.CardPrint(Hand[i]);
+                Console.Write($"\t{(int)Hand[i].Name} очков\n");
             }
             Console.WriteLine($"=====[ Всего {PlayerPoints()} очков ]=====");
 

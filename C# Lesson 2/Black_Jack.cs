@@ -10,12 +10,6 @@ namespace C__Less_3
     {
         private readonly List<string> GameWinnersList = new List<string>();
 
-        
-        public Black_Jack() 
-        {
-            
-        }
-
         public void BlackJackGame()
         {
             Deck cardsDeck = new Deck();
@@ -29,10 +23,10 @@ namespace C__Less_3
             Console.WriteLine("Вы = 1, ИИ = 2 (В случае неверного символа или пустого поля игру начинает ИИ)");
             char whosTurn = Console.ReadKey().KeyChar;
 
-            playersCards.TakingCard(cardsDeck.Cards);
-            playersCards.TakingCard(cardsDeck.Cards);
-            computersCards.TakingCard(cardsDeck.Cards);
-            computersCards.TakingCard(cardsDeck.Cards);
+            playersCards.TakingCard(cardsDeck);
+            playersCards.TakingCard(cardsDeck);
+            computersCards.TakingCard(cardsDeck);
+            computersCards.TakingCard(cardsDeck);
 
             if (playersCards.PlayerPoints() >= 21 || computersCards.PlayerPoints() >= 21)
                 WhoIsTheWinner(playersCards, computersCards);
@@ -40,13 +34,13 @@ namespace C__Less_3
             {
                 if (whosTurn == '1')
                 {
-                    PlayersTurn(playersCards, cardsDeck.Cards);
-                    ComputersTurn(computersCards, cardsDeck.Cards);
+                    PlayersTurn(playersCards, cardsDeck);
+                    ComputersTurn(computersCards, cardsDeck);
                 }
                 else
                 {
-                    ComputersTurn(computersCards, cardsDeck.Cards);
-                    PlayersTurn(playersCards, cardsDeck.Cards);
+                    ComputersTurn(computersCards, cardsDeck);
+                    PlayersTurn(playersCards, cardsDeck);
                 }
                 Console.Write($"У вас {playersCards.PlayerPoints()} очков\t|\tУ ИИ {computersCards.PlayerPoints()}  очков\n");
                 WhoIsTheWinner(playersCards, computersCards);
@@ -94,83 +88,40 @@ namespace C__Less_3
             int playersPoints = playersCards.PlayerPoints();
             int computersPoints = computersCards.PlayerPoints();
 
-            if (playersPoints == computersPoints)
+            if ((playersPoints == computersPoints) || 
+                (playersCards.Hand.All((p) => p.Name == CardName_Points.Туз) && computersCards.Hand.All((p) => p.Name == CardName_Points.Туз)) ||
+                (playersCards.Hand.All((p) => p.Name == CardName_Points.Туз) && computersPoints == 21) ||
+                (computersCards.Hand.All((p) => p.Name == CardName_Points.Туз) && playersPoints == 21))
             {
                 GameWinnersList.Add("Ничья");
-                return;
             }
-            if (playersCards.Arm.All((p) => p.Name == "Туз") && computersCards.Arm.All((p) => p.Name == "Туз"))
-            {
-                GameWinnersList.Add("Ничья");
-                return;
-            }
-            if (playersCards.Arm.All((p) => p.Name == "Туз") && computersPoints == 21)
-            {
-                GameWinnersList.Add("Ничья");
-                return;
-            }
-            if (computersCards.Arm.All((p) => p.Name == "Туз") && playersPoints == 21)
-            {
-                GameWinnersList.Add("Ничья");
-                return;
-            }
-            if (playersCards.Arm.All((p) => p.Name == "Туз") || playersPoints == 21)
+            
+            if (playersCards.Hand.All((p) => p.Name == CardName_Points.Туз) || 
+                playersPoints == 21 ||
+                (playersPoints <= 21 && computersPoints > 21) ||
+                (playersPoints < 21 && computersPoints < 21 && playersPoints > computersPoints) ||
+                (playersPoints > 21 && computersPoints > 21 && playersPoints < computersPoints))
             {
                 GameWinnersList.Add("Вы победили!");
-                return;
-            }
-            if (computersCards.Arm.All((p) => p.Name == "Туз") || computersPoints == 21)
-            {
-                GameWinnersList.Add("ИИ победил!");
-                return;
-            }
-            if (playersPoints <= 21 && computersPoints > 21)
-            {
-                GameWinnersList.Add("Вы победили!");
-                return;
-            }
-            if (computersPoints <= 21 && playersPoints > 21)
-            {
-                GameWinnersList.Add("ИИ победил!");
-                return;
-            }
-            if (playersPoints < 21 && computersPoints < 21 && playersPoints > computersPoints)
-            {
-                GameWinnersList.Add("Вы победили!");
-                return;
-            }
-            if (playersPoints < 21 && computersPoints < 21 && playersPoints < computersPoints)
-            {
-                GameWinnersList.Add("ИИ победил!");
-                return;
-            }
-            if (playersPoints > 21 && computersPoints > 21 && playersPoints < computersPoints)
-            {
-                GameWinnersList.Add("Вы победили!");
-                return;
-            }
-            if (playersPoints > 21 && computersPoints > 21 && playersPoints > computersPoints)
-            {
-                GameWinnersList.Add("ИИ победил!");
-                return;
             }
 
-
+            if (computersCards.Hand.All((p) => p.Name == CardName_Points.Туз) || computersPoints == 21 ||
+                (computersPoints <= 21 && playersPoints > 21) ||
+                (playersPoints < 21 && computersPoints < 21 && playersPoints < computersPoints) ||
+                (playersPoints > 21 && computersPoints > 21 && playersPoints > computersPoints))
+            {
+                GameWinnersList.Add("ИИ победил!");
+            }
         }
-        private static bool WantOneMoreCard(string? wantCard)
+        private bool WantOneMoreCard(string? wantCard)
         {
             return wantCard.ToLower() switch
             {
-                "1" => true,
-                "да" => true,
-                "ход" => true,
-                "+" => true,
-                "yes" => true,
-                "do" => true,
+                "1" or "да" or "ход" or "+" or "yes" or "do" => true,
                 _ => false,
             };
         }
-        private static void ComputersTurn(Player computersCards, List<Card> cards)
+        private void ComputersTurn(Player computersCards, Deck cards)
         {
             int i = 0;
             Random random = new Random();
@@ -204,7 +155,7 @@ namespace C__Less_3
             Console.WriteLine("ИИ завершил свой ход");
         }
 
-        private static void PlayersTurn(Player playersCards, List<Card> cards)
+        private void PlayersTurn(Player playersCards, Deck cards)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Ваш ход");

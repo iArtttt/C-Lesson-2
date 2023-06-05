@@ -3,9 +3,7 @@
     internal class Program
     {
         static void Main(string[] args)
-        {
-            
-            Black_Jack black_Jack = new();
+        {            
 
             Console.WriteLine("Это карточная игра Блэк-Джек или же как её называют 21");
             char ch;
@@ -14,6 +12,7 @@
             if (ch == '+')
                 Black_Jack.Rules();
 
+            Black_Jack black_Jack = new();
             do
             {
                 Console.ResetColor();
