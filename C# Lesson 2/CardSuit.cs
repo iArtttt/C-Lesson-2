@@ -3,10 +3,10 @@
 
     public enum CardSuit : byte
     {
-        Чирва,
-        Бубна,
-        Креста,
-        Пик
+        Hearts,
+        Diamonds,
+        Cross,
+        Peak
     }
     
 }

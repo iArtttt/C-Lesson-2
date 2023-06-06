@@ -89,14 +89,14 @@ namespace C__Less_3
             int computersPoints = computersCards.PlayerPoints();
 
             if ((playersPoints == computersPoints) || 
-                (playersCards.Hand.All((p) => p.Name == CardName_Points.Туз) && computersCards.Hand.All((p) => p.Name == CardName_Points.Туз)) ||
-                (playersCards.Hand.All((p) => p.Name == CardName_Points.Туз) && computersPoints == 21) ||
-                (computersCards.Hand.All((p) => p.Name == CardName_Points.Туз) && playersPoints == 21))
+                (playersCards.Hand.All((p) => p.Name == CardName_Points.Ace) && computersCards.Hand.All((p) => p.Name == CardName_Points.Ace)) ||
+                (playersCards.Hand.All((p) => p.Name == CardName_Points.Ace) && computersPoints == 21) ||
+                (computersCards.Hand.All((p) => p.Name == CardName_Points.Ace) && playersPoints == 21))
             {
                 GameWinnersList.Add("Ничья");
             }
             
-            if (playersCards.Hand.All((p) => p.Name == CardName_Points.Туз) || 
+            if (playersCards.Hand.All((p) => p.Name == CardName_Points.Ace) || 
                 playersPoints == 21 ||
                 (playersPoints <= 21 && computersPoints > 21) ||
                 (playersPoints < 21 && computersPoints < 21 && playersPoints > computersPoints) ||
@@ -105,7 +105,7 @@ namespace C__Less_3
                 GameWinnersList.Add("Вы победили!");
             }
 
-            if (computersCards.Hand.All((p) => p.Name == CardName_Points.Туз) || computersPoints == 21 ||
+            if (computersCards.Hand.All((p) => p.Name == CardName_Points.Ace) || computersPoints == 21 ||
                 (computersPoints <= 21 && playersPoints > 21) ||
                 (playersPoints < 21 && computersPoints < 21 && playersPoints < computersPoints) ||
                 (playersPoints > 21 && computersPoints > 21 && playersPoints > computersPoints))
@@ -193,19 +193,19 @@ namespace C__Less_3
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write($"\n\t\tОчки распределяються так:\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"\tТуз ");
+            Console.Write($"\tТуз (Ace) ");
             Console.ResetColor();
             Console.Write($"- 11 очков\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"\tКороль ");
+            Console.Write($"\tКороль (King)");
             Console.ResetColor();
             Console.Write($"- 4 очка\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"\tДама ");
+            Console.Write($"\tДама (Lady)");
             Console.ResetColor();
             Console.Write($"- 3 очка\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"\tВалет ");
+            Console.Write($"\tВалет (Jack)");
             Console.ResetColor();
             Console.Write($"- 2 очка\n");
             Console.ForegroundColor = ConsoleColor.DarkYellow;

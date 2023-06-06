@@ -33,7 +33,7 @@ namespace C__Less_3
             Console.WriteLine();
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (Cards[i].Suit == CardSuit.Пик)
+                if (Cards[i].Suit == CardSuit.Peak)
                     Console.WriteLine($"{Cards[i].Name} {Cards[i].Suit} на позиции \t[ {i} ]");
             }
         }
@@ -44,12 +44,12 @@ namespace C__Less_3
             Card temp;
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (i == insertToPosition && Cards[i].Suit == CardSuit.Пик)
+                if (i == insertToPosition && Cards[i].Suit == CardSuit.Peak)
                 {
                     insertToPosition++;
                     continue;
                 }
-                if (Cards[i].Suit == CardSuit.Пик)
+                if (Cards[i].Suit == CardSuit.Peak)
                 {
                     temp = Cards[i];
                     Cards[i] = Cards[insertToPosition];
@@ -64,7 +64,7 @@ namespace C__Less_3
         {
             for (int i = 0; i < Cards.Count; i++)
             {
-                if (Cards[i].Name == CardName_Points.Туз)
+                if (Cards[i].Name == CardName_Points.Ace)
                     Console.WriteLine($"{Cards[i].Name} {Cards[i].Suit} on position \t[ {i} ]");
 
             }
@@ -72,18 +72,10 @@ namespace C__Less_3
 
         public void AllCardToSort()
         {
-            Cards = Cards.OrderBy(c => c.Suit).ThenBy(c => (int)c.Name switch
+            Cards = Cards.OrderBy(c => c.Suit).ThenByDescending(c => (int)c.Name switch
             {
-                11 => 0,
-                4 => 1,
-                3 => 2,
-                2 => 3,
-                10 => 4,
-                9 => 5,
-                8 => 6,
-                7 => 7,
-                6 => 8,
-                _ => 0
+                (int)CardName_Points.Ace or (int)CardName_Points.King or (int)CardName_Points.Lady or (int)CardName_Points.Jack => (int)c.Name * 10,
+                _ => (int)c.Name
             }).ToList();
         }
         public void CardsShuffle()
@@ -137,10 +129,10 @@ namespace C__Less_3
         {
             return card.Suit switch
             {
-                CardSuit.Чирва => Console.ForegroundColor = ConsoleColor.DarkRed,
-                CardSuit.Бубна => Console.ForegroundColor = ConsoleColor.Red,
-                CardSuit.Креста => Console.ForegroundColor = ConsoleColor.Blue,
-                CardSuit.Пик => Console.ForegroundColor = ConsoleColor.DarkBlue,
+                CardSuit.Hearts => Console.ForegroundColor = ConsoleColor.DarkRed,
+                CardSuit.Diamonds => Console.ForegroundColor = ConsoleColor.Red,
+                CardSuit.Cross => Console.ForegroundColor = ConsoleColor.Blue,
+                CardSuit.Peak => Console.ForegroundColor = ConsoleColor.DarkBlue,
                 _ => Console.ForegroundColor = ConsoleColor.Gray,
             };
         }
@@ -148,10 +140,10 @@ namespace C__Less_3
         {
             return card.Name switch
             {
-                CardName_Points.Туз => Console.ForegroundColor = ConsoleColor.Yellow,
-                CardName_Points.Король => Console.ForegroundColor = ConsoleColor.Yellow,
-                CardName_Points.Дама => Console.ForegroundColor = ConsoleColor.Yellow,
-                CardName_Points.Валет => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Ace => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.King => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Lady => Console.ForegroundColor = ConsoleColor.Yellow,
+                CardName_Points.Jack => Console.ForegroundColor = ConsoleColor.Yellow,
                 _ => Console.ForegroundColor = ConsoleColor.DarkYellow,
             };
         }

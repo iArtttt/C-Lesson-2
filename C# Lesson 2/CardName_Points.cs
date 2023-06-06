@@ -2,15 +2,15 @@
 {    
     public enum CardName_Points : byte
     {
-        Туз = 11,
-        Король = 4,
-        Дама = 3,
-        Валет = 2,
-        Десять = 10,
-        Девять = 9,
-        Восемь = 8,
-        Семь = 7,
-        Шесть = 6
+        Ace = 11,
+        King = 4,
+        Lady = 3,
+        Jack = 2,
+        Ten = 10,
+        Nine = 9,
+        Eight = 8,
+        Seven = 7,
+        Six = 6
     }
     
 }
