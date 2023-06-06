@@ -74,7 +74,10 @@ namespace C__Less_3
         {
             Cards = Cards.OrderBy(c => c.Suit).ThenByDescending(c => (int)c.Name switch
             {
-                (int)CardName_Points.Ace or (int)CardName_Points.King or (int)CardName_Points.Lady or (int)CardName_Points.Jack => (int)c.Name * 10,
+                (int)CardName_Points.Ace or 
+                (int)CardName_Points.King or 
+                (int)CardName_Points.Lady or 
+                (int)CardName_Points.Jack => (int)c.Name * 10,
                 _ => (int)c.Name
             }).ToList();
         }
